@@ -1,0 +1,229 @@
+openapi: 3.0.3
+info:
+  title: Diagram Templates API
+  version: 1.0.0
+  description: API для управления диаграммами узлов и связей
+
+paths:
+  /templates/create:
+    post:
+      summary: Создание новой диаграммы
+      responses:
+        "201":
+          description: Диаграмма успешно создана
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CreateResponse"
+        default:
+          description: Ошибка при создании диаграммы
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /templates/{id}/save:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+        description: ID диаграммы
+    post:
+      summary: Сохранение диаграммы
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Diagram"
+      responses:
+        "200":
+          description: Диаграмма успешно сохранена
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SaveResponse"
+        default:
+          description: Ошибка при сохранении диаграммы
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /templates/{id}/delete:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+        description: ID диаграммы
+    delete:
+      summary: Удаление диаграммы
+      responses:
+        "204":
+          description: Диаграмма успешно удалена
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DeleteResponse"
+        default:
+          description: Ошибка при удалении диаграммы
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /templates:
+    get:
+      summary: Получение списка диаграмм
+      responses:
+        "200":
+          description: Список диаграмм успешно получен
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TemplatesListResponse"
+        default:
+          description: Ошибка при получении списка диаграмм
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+components:
+  schemas:
+    # Ответы на запросы
+    CreateResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: ID созданной диаграммы
+
+    SaveResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: ID диаграммы
+        name:
+          type: string
+          description: Название диаграммы
+
+    DeleteResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: ID диаграммы
+        name:
+          type: string
+          description: Название диаграммы
+
+    TemplatesListResponse:
+      type: object
+      properties:
+        templates:
+          type: array
+          items:
+            $ref: "#/components/schemas/TemplateItem"
+
+    # Основные сущности
+    Node:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: ID узла
+        id_ai:
+          type: integer
+          format: int64
+          description: Связанная AI-сущность
+        name:
+          type: string
+          description: Короткое отображаемое имя узла
+        description:
+          type: string
+          description: Описание узла
+        text_in:
+          type: string
+          description: Входной текст
+        text_out:
+          type: string
+          description: Выходной текст
+
+    Line:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: ID линии
+        id_node_begin:
+          type: integer
+          format: int64
+          description: ID начального узла
+        id_node_end:
+          type: integer
+          format: int64
+          description: ID конечного узла
+        description:
+          type: string
+          description: Описание линии
+
+    Diagram:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: ID диаграммы
+        name:
+          type: string
+          description: Короткое отображаемое имя диаграммы
+        description:
+          type: string
+          description: Описание диаграммы
+        nodes:
+          type: array
+          items:
+            $ref: "#/components/schemas/Node"
+          description: Массив узлов
+        lines:
+          type: array
+          items:
+            $ref: "#/components/schemas/Line"
+          description: Массив линий
+
+    TemplateItem:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: ID диаграммы
+        name:
+          type: string
+          description: Короткое отображаемое имя диаграммы
+
+    ErrorResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+          description: Код ошибки
+        message:
+          type: string
+          description: Короткое сообщение об ошибке
+        details:
+          type: string
+          description: Детали ошибки

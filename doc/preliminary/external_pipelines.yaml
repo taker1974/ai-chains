@@ -1,0 +1,112 @@
+openapi: 3.1.0
+info:
+  title: Title
+  description: Title
+  version: 1.0.0
+servers:
+  - url: 'https'
+paths:
+    get:
+      summary: List pipelines
+      parameters:
+        - in: header
+          name: X-User-Id
+          required: true
+          schema: { type: string, format: uuid }
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items: {
+                  id: { type: string, format: uuid }
+                    idProject: { type: string, format: uuid }
+                    ownerId: { type: string, format: uuid }
+                    name: { type: string }
+                    description: { type: string }
+                    status: { type: string, enum }
+                }
+    post:
+      summary: Create pipeline
+      parameters:
+        - in: header
+          name: X-User-Id
+          required: true
+          schema: { type: string, format: uuid }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: {
+              name: { type: string }
+                idProject: { type: string }
+                description: { type: string }
+            }
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema: {
+                id: { type: string, format: uuid }
+                  idProject: { type: string, format: uuid }
+                  currentStep
+                  ownerId: { type: string, format: uuid }
+                  name: { type: string }
+                  description: { type: string }
+                  createdAt: { type: date }
+                  deletedAt: { type: date }
+              }
+    /pipelines/{id}:
+      get:
+        summary: Get pipeline by id
+        parameters:
+          - in: path
+            name: id
+            required: true
+            schema: { type: string, format: uuid }
+        responses:
+          '200':
+            description: OK
+            content:
+              application/json:
+                schema: {
+                  id: { type: string, format: uuid }
+                    idProject: { type: string, format: uuid }
+                    currentStep
+                    ownerId: { type: string, format: uuid }
+                    name: { type: string }
+                    description: { type: string }
+                    createdAt: { type: date }
+                    deletedAt: { type: date }
+                }
+      delete:
+        summary: Delete pipeline
+        parameters:
+          - in: path
+            name: id
+            required: true
+            schema: { type: string, format: uuid }
+          '204': { description: Deleted }
+
+  components:
+    schemas:
+      Pipeline:
+        type: object
+        properties:
+          id: { type: string, format: uuid }
+          idProject: { type: string, format: uuid }
+          currentStep
+          ownerId: { type: string, format: uuid }
+          name: { type: string }
+          description: { type: string }
+          createdAt: { type: date }
+          deletedAt: { type: date }
+      PipelineCreate:
+        type: object
+        properties:
+          name: { type: string }
+          idProject: { type: string}
+          description: { type: string }

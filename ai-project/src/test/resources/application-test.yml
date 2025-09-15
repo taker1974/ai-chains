@@ -1,0 +1,20 @@
+spring:
+  datasource:
+    hikari:
+      connection-timeout: 180000 # Increase to 3 min
+      initialization-fail-timeout: 180000 # Increase to 3 min
+      max-lifetime: 180000 # Increase to 3 min
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: info
+
+logging:
+  level:
+    org:
+      hibernate: WARN
+      springframework:
+        data:
+          jpa: WARN
