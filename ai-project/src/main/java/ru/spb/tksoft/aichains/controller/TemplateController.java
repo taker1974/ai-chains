@@ -10,6 +10,7 @@ import ru.spb.tksoft.aichains.dto.response.TemplateResponseDto;
 import ru.spb.tksoft.aichains.dto.response.UpdateTemplateResponseDto;
 import ru.spb.tksoft.aichains.service.TemplateService;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -79,7 +80,7 @@ public class TemplateController {
      */
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Operation(summary = "Delete existing template")
-    @PostMapping("/delete")
+    @DeleteMapping("/delete")
     @NotNull
     public void deleteTemplate(
             @NotNull @Valid DeleteTemplateRequestDto deleteTemplateRequest) {
