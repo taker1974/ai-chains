@@ -5,12 +5,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
+import ru.spb.tksoft.aichains.project.dto.ProjectDto;
 import ru.spb.tksoft.aichains.project.dto.request.CreateProjectRequestDto;
 import ru.spb.tksoft.aichains.project.dto.request.DeleteProjectRequestDto;
 import ru.spb.tksoft.aichains.project.dto.request.GetProjectRequestDto;
 import ru.spb.tksoft.aichains.project.dto.request.UpdateProjectRequestDto;
 import ru.spb.tksoft.aichains.project.dto.response.CreateProjectResponseDto;
-import ru.spb.tksoft.aichains.project.dto.response.ProjectResponseDto;
+import ru.spb.tksoft.aichains.project.dto.response.DeleteProjectResponseDto;
 import ru.spb.tksoft.aichains.project.dto.response.UpdateProjectResponseDto;
 import ru.spb.tksoft.utils.log.LogEx;
 
@@ -29,7 +30,7 @@ public class ProjectService {
      * Create new project.
      * 
      * @param createProjectRequest - request DTO.
-     * @return 201/CREATED, 401/Unauthorized.
+     * @return response DTO.
      */
     public @NotNull CreateProjectResponseDto createProject(
             final @NotNull CreateProjectRequestDto createProjectRequest) {
@@ -47,15 +48,15 @@ public class ProjectService {
      * Get existing project.
      * 
      * @param getProjectRequest - request DTO.
-     * @return 200/OK, 401/Unauthorized, 404/Not Found.
+     * @return response DTO.
      */
-    public @NotNull ProjectResponseDto getProject(
+    public @NotNull ProjectDto getProject(
             final @NotNull GetProjectRequestDto getProjectRequest) {
 
         LogEx.trace(log, LogEx.getThisMethodName(), LogEx.STARTING);
 
-        final ProjectResponseDto dto = new ProjectResponseDto();
-        dto.setProjectId(123L);
+        final ProjectDto dto = new ProjectDto();
+        dto.setProjectId(getProjectRequest.getProjectId());
 
         LogEx.trace(log, LogEx.getThisMethodName(), LogEx.STOPPING);
         return dto;
@@ -65,7 +66,7 @@ public class ProjectService {
      * Update existing project.
      * 
      * @param updateProjectRequest - request DTO.
-     * @return 200/OK, 401/Unauthorized, 404/Not Found.
+     * @return response DTO.
      */
     public @NotNull UpdateProjectResponseDto updateProject(
             final @NotNull UpdateProjectRequestDto updateProjectRequest) {
@@ -73,7 +74,7 @@ public class ProjectService {
         LogEx.trace(log, LogEx.getThisMethodName(), LogEx.STARTING);
 
         final UpdateProjectResponseDto dto = new UpdateProjectResponseDto();
-        dto.setTemplateId(123L);
+        dto.setProjectId(updateProjectRequest.getData().getProjectId());
 
         LogEx.trace(log, LogEx.getThisMethodName(), LogEx.STOPPING);
         return dto;
@@ -84,13 +85,16 @@ public class ProjectService {
      * 
      * @param deleteProjectRequest - request DTO.
      */
-    public void deleteProject(final @NotNull DeleteProjectRequestDto deleteProjectRequest) {
+    public DeleteProjectResponseDto deleteProject(
+            final DeleteProjectRequestDto deleteProjectRequest) {
 
         LogEx.trace(log, LogEx.getThisMethodName(), LogEx.STARTING);
 
-        // ...
+        var dto = new DeleteProjectResponseDto();
+        dto.setProjectId(deleteProjectRequest.getProjectId());
 
-        LogEx.trace(log, LogEx.getThisMethodName(), LogEx.STOPPED);
+        LogEx.trace(log, LogEx.getThisMethodName(), LogEx.STOPPING);
+        return dto;
     }
 
 }

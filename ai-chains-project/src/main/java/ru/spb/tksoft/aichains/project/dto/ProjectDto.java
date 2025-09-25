@@ -1,6 +1,7 @@
 package ru.spb.tksoft.aichains.project.dto;
 
 import java.time.Instant;
+import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -39,4 +40,12 @@ public class ProjectDto {
     /** Project status. */
     @JsonProperty("status")
     private String status;
+
+    /** Project blocks. */
+    @JsonProperty("blocks")
+    private List<ProjectBlockDto> blocks;
+
+    /** Project lines. */
+    @JsonProperty("lines")
+    private List<ProjectLineDto> lines;
 }

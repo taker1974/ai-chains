@@ -20,10 +20,6 @@ public class UpdateProjectRequestDto {
     @JsonProperty("user_id")
     private long userId;
 
-    /** Project ID. */
-    @JsonProperty("project_id")
-    private long projectId;
-
     /** Project full data. */
     @JsonProperty("project_data")
     private ProjectDto data;

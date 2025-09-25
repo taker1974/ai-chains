@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>ru.spb.tksoft</groupId>
-    <artifactId>ai-chains-app</artifactId>
+    <artifactId>ai-chains</artifactId>
     <version>1.0.0</version>
 
     <properties>
@@ -13,7 +13,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
-        <start-class>ru.spb.tksoft.aichains.AiChainsApplication</start-class>
     </properties>
 
     <packaging>pom</packaging>
@@ -21,8 +20,8 @@
     <modules>
         <module>tk-string-utils</module>
         <module>tk-log-utils</module>
+        <module>tk-common-controller-advice</module>
         <module>ai-chains-project</module>
-        <module>ai-runner</module>
     </modules>
 
 </project>
