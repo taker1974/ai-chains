@@ -21,7 +21,8 @@
     <modules>
         <module>tk-string-utils</module>
         <module>tk-log-utils</module>
-        <module>ai-project</module>
+        <module>ai-chains-project</module>
+        <module>ai-runner</module>
     </modules>
 
 </project>
