@@ -1,5 +1,6 @@
 package ru.spb.tksoft.aichains.project.dto;
 
+import java.time.Instant;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -13,7 +14,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-    public class ProjectDto {
+public class ProjectDto {
 
     /** Project ID. */
     @JsonProperty("project_id")
@@ -21,12 +22,12 @@ import lombok.NoArgsConstructor;
 
     /** Project created at. */
     @JsonProperty("created_at")
-    private LocalDateTime createdAt;
-    
+    private Instant createdAt;
+
     /** Project updated at. */
     @JsonProperty("updated_at")
-    private LocalDateTime updatedAt;
-    
+    private Instant updatedAt;
+
     /** Owner ID. */
     @JsonProperty("owner_id")
     private long ownerId;
@@ -38,8 +39,4 @@ import lombok.NoArgsConstructor;
     /** Project status. */
     @JsonProperty("status")
     private String status;
-
-    /** Project ai agents. */
-    @JsonProperty("ai_agents")
-    private List<String> aiAgents;
 }
