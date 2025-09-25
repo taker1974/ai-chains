@@ -1,21 +1,23 @@
-package ru.spb.tksoft.aichains.project.dto;
+package ru.spb.tksoft.aichains.project.dto.response;
 
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import ru.spb.tksoft.aichains.project.dto.ProjectBlockDto;
+import ru.spb.tksoft.aichains.project.dto.ProjectLineDto;
 
 /**
- * Project DTO.
+ * Project response DTO.
  * 
  * @author Konstantin Terskikh, kostus.online.1974@yandex.ru, 2025
  */
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class ProjectDto {
+public class ProjectResponseDto {
 
     /** Project ID. */
     @JsonProperty("project_id")
@@ -48,4 +50,10 @@ public class ProjectDto {
     /** Project lines. */
     @JsonProperty("lines")
     private List<ProjectLineDto> lines;
+
+    /** Default constructor. */
+    public ProjectResponseDto() {
+        this.blocks = new ArrayList<>();
+        this.lines = new ArrayList<>();
+    }
 }

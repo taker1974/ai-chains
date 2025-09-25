@@ -1,30 +1,36 @@
 package ru.spb.tksoft.aichains.project.controller;
 
 import lombok.RequiredArgsConstructor;
-import ru.spb.tksoft.aichains.project.dto.ProjectDto;
 import ru.spb.tksoft.aichains.project.dto.request.CreateProjectRequestDto;
 import ru.spb.tksoft.aichains.project.dto.request.DeleteProjectRequestDto;
+import ru.spb.tksoft.aichains.project.dto.request.GetProjectListRequestDto;
 import ru.spb.tksoft.aichains.project.dto.request.GetProjectRequestDto;
 import ru.spb.tksoft.aichains.project.dto.request.UpdateProjectRequestDto;
 import ru.spb.tksoft.aichains.project.dto.response.CreateProjectResponseDto;
 import ru.spb.tksoft.aichains.project.dto.response.DeleteProjectResponseDto;
+import ru.spb.tksoft.aichains.project.dto.response.ProjectListResponseDto;
+import ru.spb.tksoft.aichains.project.dto.response.ProjectResponseDto;
 import ru.spb.tksoft.aichains.project.dto.response.UpdateProjectResponseDto;
 import ru.spb.tksoft.aichains.project.service.ProjectService;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
+/**
+ * Projects controller.
+ * 
+ * Each method can return 400/Bad Request, 401/Unauthorized, 404/Not Found in case of invalid
+ * request.
+ * 
+ * @author Konstantin Terskikh, kostus.online.1974@yandex.ru, 2025
+ */
 @RestController
 @RequiredArgsConstructor
 @Tag(name = "Projects (aka templates)")
@@ -36,7 +42,8 @@ public class ProjectController {
     /**
      * Create new project.
      * 
-     * @return response DTO + 201/CREATED || 401/Unauthorized.
+     * @param createProjectRequest request DTO.
+     * @return response DTO + 201/CREATED.
      */
     @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "Create new project")
@@ -49,15 +56,31 @@ public class ProjectController {
     }
 
     /**
+     * Get list of existing projects owned by the user.
+     * 
+     * @param getProjectRequest request DTO.
+     * @return response DTO + 200/OK.
+     */
+    @ResponseStatus(HttpStatus.OK)
+    @Operation(summary = "Get list of existing projects owned by the user")
+    @GetMapping("/list")
+    @NotNull
+    public ProjectListResponseDto getProjectList(
+            @NotNull @Valid GetProjectListRequestDto getProjectListRequest) {
+
+        return projectService.getProjectList(getProjectListRequest);
+    }
+
+    /**
      * Get existing project.
      * 
-     * @return response DTO + 200/OK || (401/Unauthorized | 404/Not Found).
+     * @return response DTO + 200/OK.
      */
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Get existing project")
     @GetMapping("/get")
     @NotNull
-    public ProjectDto getProject(
+    public ProjectResponseDto getProject(
             @NotNull @Valid GetProjectRequestDto getProjectRequest) {
 
         return projectService.getProject(getProjectRequest);
@@ -66,7 +89,7 @@ public class ProjectController {
     /**
      * Update existing template.
      * 
-     * @return response DTO + 200/OK || (401/Unauthorized | 404/Not Found).
+     * @return response DTO + 200/OK.
      */
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Update existing project")
@@ -81,7 +104,7 @@ public class ProjectController {
     /**
      * Delete existing template.
      *
-     * Returns 204/NO_CONTENT || (401/Unauthorized | 404/Not Found).
+     * @return response DTO + 204/NO_CONTENT.
      */
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Operation(summary = "Delete existing project")

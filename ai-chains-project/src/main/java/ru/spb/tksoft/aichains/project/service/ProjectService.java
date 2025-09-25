@@ -3,15 +3,18 @@ package ru.spb.tksoft.aichains.project.service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
-import ru.spb.tksoft.aichains.project.dto.ProjectDto;
 import ru.spb.tksoft.aichains.project.dto.request.CreateProjectRequestDto;
 import ru.spb.tksoft.aichains.project.dto.request.DeleteProjectRequestDto;
+import ru.spb.tksoft.aichains.project.dto.request.GetProjectListRequestDto;
 import ru.spb.tksoft.aichains.project.dto.request.GetProjectRequestDto;
 import ru.spb.tksoft.aichains.project.dto.request.UpdateProjectRequestDto;
 import ru.spb.tksoft.aichains.project.dto.response.CreateProjectResponseDto;
 import ru.spb.tksoft.aichains.project.dto.response.DeleteProjectResponseDto;
+import ru.spb.tksoft.aichains.project.dto.response.ProjectListResponseDto;
+import ru.spb.tksoft.aichains.project.dto.response.ProjectResponseDto;
 import ru.spb.tksoft.aichains.project.dto.response.UpdateProjectResponseDto;
 import ru.spb.tksoft.utils.log.LogEx;
 
@@ -50,12 +53,12 @@ public class ProjectService {
      * @param getProjectRequest - request DTO.
      * @return response DTO.
      */
-    public @NotNull ProjectDto getProject(
+    public @NotNull ProjectResponseDto getProject(
             final @NotNull GetProjectRequestDto getProjectRequest) {
 
         LogEx.trace(log, LogEx.getThisMethodName(), LogEx.STARTING);
 
-        final ProjectDto dto = new ProjectDto();
+        final ProjectResponseDto dto = new ProjectResponseDto();
         dto.setProjectId(getProjectRequest.getProjectId());
 
         LogEx.trace(log, LogEx.getThisMethodName(), LogEx.STOPPING);
@@ -92,6 +95,23 @@ public class ProjectService {
 
         var dto = new DeleteProjectResponseDto();
         dto.setProjectId(deleteProjectRequest.getProjectId());
+
+        LogEx.trace(log, LogEx.getThisMethodName(), LogEx.STOPPING);
+        return dto;
+    }
+
+    /**
+     * Get list of existing projects owned by the user.
+     * 
+     * @param getProjectListRequest - request DTO.
+     * @return response DTO.
+     */
+    public @NotNull ProjectListResponseDto getProjectList(
+            final @NotNull GetProjectListRequestDto getProjectListRequest) {
+
+        LogEx.trace(log, LogEx.getThisMethodName(), LogEx.STARTING);
+
+        final ProjectListResponseDto dto = new ProjectListResponseDto();
 
         LogEx.trace(log, LogEx.getThisMethodName(), LogEx.STOPPING);
         return dto;
