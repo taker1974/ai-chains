@@ -1,0 +1,37 @@
+### Health Check
+GET http://localhost:8080/api/health
+
+### Log User Data - Valid Request
+POST http://localhost:8080/api/logData
+Content-Type: application/json
+
+{
+  "user_id": 123,
+  "user_name": "ivan"
+}
+
+### Log User Data - Another Valid Request
+POST http://localhost:8080/api/logData
+Content-Type: application/json
+
+{
+  "user_id": 456,
+  "user_name": "petr"
+}
+
+### Log User Data - Invalid Request (should return 400)
+POST http://localhost:8080/api/logData
+Content-Type: application/json
+
+{
+  "user_id": -1,
+  "user_name": ""
+}
+
+### Log User Data - Missing Fields (should return 400)
+POST http://localhost:8080/api/logData
+Content-Type: application/json
+
+{
+  "user_id": 999
+}

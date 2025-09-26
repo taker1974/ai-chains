@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-TestJsonApplication<test-json>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.example.testjson.TestJsonApplication",
+            "projectName": "test-json",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
