@@ -1,0 +1,5 @@
+ru/spb/tksoft/aichains/project/dto/request/UserDataDto.class
+ru/spb/tksoft/aichains/project/controller/ProjectController.class
+ru/spb/tksoft/aichains/project/service/ProjectService.class
+ru/spb/tksoft/aichains/project/config/OpenApiConfig.class
+ru/spb/tksoft/aichains/project/AiChainsProjectApplication.class

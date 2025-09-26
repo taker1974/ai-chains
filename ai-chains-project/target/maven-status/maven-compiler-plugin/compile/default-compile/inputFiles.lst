@@ -1,0 +1,5 @@
+/home/kostus/Projects/ai-chains/ai-chains-project/src/main/java/ru/spb/tksoft/aichains/project/AiChainsProjectApplication.java
+/home/kostus/Projects/ai-chains/ai-chains-project/src/main/java/ru/spb/tksoft/aichains/project/config/OpenApiConfig.java
+/home/kostus/Projects/ai-chains/ai-chains-project/src/main/java/ru/spb/tksoft/aichains/project/controller/ProjectController.java
+/home/kostus/Projects/ai-chains/ai-chains-project/src/main/java/ru/spb/tksoft/aichains/project/dto/request/UserDataDto.java
+/home/kostus/Projects/ai-chains/ai-chains-project/src/main/java/ru/spb/tksoft/aichains/project/service/ProjectService.java
