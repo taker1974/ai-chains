@@ -1,5 +1,5 @@
-/home/kostus/Projects/test-json/src/main/java/com/example/testjson/TestJsonApplication.java
-/home/kostus/Projects/test-json/src/main/java/com/example/testjson/config/OpenApiConfig.java
-/home/kostus/Projects/test-json/src/main/java/com/example/testjson/controller/JsonController.java
-/home/kostus/Projects/test-json/src/main/java/com/example/testjson/dto/UserDataDto.java
-/home/kostus/Projects/test-json/src/main/java/com/example/testjson/service/UserDataService.java
+/home/kostus/Projects/ai-chains/test-json/src/main/java/com/example/testjson/TestJsonApplication.java
+/home/kostus/Projects/ai-chains/test-json/src/main/java/com/example/testjson/config/OpenApiConfig.java
+/home/kostus/Projects/ai-chains/test-json/src/main/java/com/example/testjson/controller/JsonController.java
+/home/kostus/Projects/ai-chains/test-json/src/main/java/com/example/testjson/dto/UserDataDto.java
+/home/kostus/Projects/ai-chains/test-json/src/main/java/com/example/testjson/service/UserDataService.java
