@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import ru.spb.tksoft.chains.project.enumeration.ProjectStatus;
 
 /**
  * Project response DTO.
@@ -48,8 +49,8 @@ public class ProjectResponseDto {
 
     /** Project status. */
     @JsonProperty("status")
-    @Schema(description = "Project status", example = "EDITING", minLength = 1, maxLength = 20)
-    private String status;
+    @Schema(description = "Project status", example = "EDITING")
+    private ProjectStatus status;
 
     /** Project blocks. */
     @JsonProperty("blocks")

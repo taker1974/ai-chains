@@ -11,6 +11,7 @@ import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import ru.spb.tksoft.chains.project.enumeration.ProjectStatus;
 
 /**
  * Project request DTO.
@@ -45,11 +46,10 @@ public class ProjectRequestDto {
     private String name;
 
     /** Project status. */
-    @NotBlank(message = "status is required")
-    @Size(min = 1, max = 20, message = "status must be between 1 and 20 characters")
+    @NotNull(message = "status is required")
     @JsonProperty("status")
-    @Schema(description = "Project status", example = "EDITING", minLength = 1, maxLength = 20)
-    private String status;
+    @Schema(description = "Project status", example = "EDITING")
+    private ProjectStatus status;
 
     /** Project blocks. */
     @NotNull(message = "blocks is required")

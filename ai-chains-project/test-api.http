@@ -3,7 +3,7 @@ POST http://localhost:8080/projects/create
 Content-Type: application/json
 
 {
-  "user_id": 345,
+  "user_id": 1,
   "name": "first project"
 }
 

@@ -12,22 +12,24 @@ import ru.spb.tksoft.chains.project.dto.response.DeleteProjectResponseDto;
 import ru.spb.tksoft.chains.project.dto.response.ProjectListResponseDto;
 import ru.spb.tksoft.chains.project.dto.response.ProjectResponseDto;
 import ru.spb.tksoft.chains.project.dto.response.UpdateProjectResponseDto;
+import ru.spb.tksoft.chains.project.entity.project.ProjectBlockEntity;
+import ru.spb.tksoft.chains.project.entity.project.ProjectEntity;
+import ru.spb.tksoft.chains.project.entity.project.ProjectLineEntity;
+import ru.spb.tksoft.chains.project.entity.user.UserEntity;
 import ru.spb.tksoft.chains.project.dto.response.ProjectBlockResponseDto;
 import ru.spb.tksoft.chains.project.dto.response.ProjectLineResponseDto;
 import ru.spb.tksoft.chains.project.dto.response.ProjectListItemResponseDto;
-import ru.spb.tksoft.chains.project.entity.Project;
-import ru.spb.tksoft.chains.project.entity.ProjectBlock;
-import ru.spb.tksoft.chains.project.entity.ProjectLine;
 import ru.spb.tksoft.chains.project.enumeration.ProjectStatus;
+import ru.spb.tksoft.chains.project.mapper.ProjectMapper;
 import ru.spb.tksoft.chains.project.repository.ProjectRepository;
+import ru.spb.tksoft.chains.project.repository.UserRepository;
 import ru.spb.tksoft.chains.project.repository.ProjectBlockRepository;
 import ru.spb.tksoft.chains.project.repository.ProjectLineRepository;
 import ru.spb.tksoft.utils.log.LogEx;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
+import lombok.RequiredArgsConstructor;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
@@ -46,6 +48,8 @@ public class ProjectService {
 
     private final Logger log = LoggerFactory.getLogger(ProjectService.class);
 
+    private final UserRepository userRepository;
+
     private final ProjectRepository projectRepository;
 
     private final ProjectBlockRepository projectBlockRepository;
@@ -55,33 +59,26 @@ public class ProjectService {
     /**
      * Create new project
      * 
-     * @param createProjectRequest - request DTO
+     * @param request - request DTO
      * @return - response DTO
      */
     @Transactional
     public CreateProjectResponseDto createProject(
-            final CreateProjectRequestDto createProjectRequest) {
+            final CreateProjectRequestDto request) {
 
         LogEx.trace(log, LogEx.me(), LogEx.STARTING);
 
-        // Create project entity
-        Project project = new Project();
-        project.setOwnerId(createProjectRequest.getUserId());
-        project.setName(createProjectRequest.getName());
-        project.setStatus(ProjectStatus.EDITING.getValue()); // Default status
-        
-        // Initialize empty lists for blocks and lines
-        project.setBlocks(new ArrayList<>());
-        project.setLines(new ArrayList<>());
+        Optional<UserEntity> userOpt = userRepository.findByUserId(request.getUserId());
+        if (userOpt.isEmpty()) {
+            throw new RuntimeException("User not found");
+        }
 
-        // Save project
-        Project savedProject = projectRepository.save(project);
+        UserEntity owner = userOpt.get();
 
-        // Save project with blocks and lines
-        projectRepository.save(savedProject);
+        ProjectEntity entity = ProjectEntity.newProject(owner, request.getName());
+        ProjectEntity savedProject = projectRepository.save(entity);
 
-        var dto = new CreateProjectResponseDto();
-        dto.setProjectId(savedProject.getProjectId());
+        var dto = ProjectMapper.toDto(savedProject);
 
         LogEx.trace(log, LogEx.me(), LogEx.STOPPING);
         return dto;
@@ -90,61 +87,61 @@ public class ProjectService {
     /**
      * Update existing project.
      * 
-     * @param updateProjectRequest - request DTO.
+     * @param request - request DTO.
      * @return response DTO.
      */
     @Transactional
     public @NotNull UpdateProjectResponseDto updateProject(
-            final @NotNull UpdateProjectRequestDto updateProjectRequest) {
+            final @NotNull UpdateProjectRequestDto request) {
 
         LogEx.trace(log, LogEx.me(), LogEx.STARTING);
 
-        final UpdateProjectResponseDto dto = new UpdateProjectResponseDto();
-        dto.setProjectId(updateProjectRequest.getData().getProjectId());
-
         // Find existing project
-        Optional<Project> projectOpt = projectRepository.findByProjectIdAndOwnerId(
-                updateProjectRequest.getData().getProjectId(),
-                updateProjectRequest.getUserId());
+        // Optional<ProjectEntity> projectOpt = projectRepository.findByProjectIdAndOwnerId(
+        // updateProjectRequest.getData().getProjectId(),
+        // updateProjectRequest.getUserId());
 
-        if (projectOpt.isPresent()) {
-            Project project = projectOpt.get();
-            
-            // Update project fields
-            project.setName(updateProjectRequest.getData().getName());
-            project.setStatus(updateProjectRequest.getData().getStatus());
+        // if (projectOpt.isPresent()) {
+        // ProjectEntity project = projectOpt.get();
 
-            // Clear existing blocks and lines
-            project.getBlocks().clear();
-            project.getLines().clear();
+        // // Update project fields
+        // project.setName(updateProjectRequest.getData().getName());
+        // project.setStatus(updateProjectRequest.getData().getStatus());
 
-            // Add new blocks if provided
-            if (updateProjectRequest.getData().getBlocks() != null) {
-                for (ProjectBlockRequestDto blockDto : updateProjectRequest.getData().getBlocks()) {
-                    ProjectBlock block = new ProjectBlock();
-                    block.setProject(project);
-                    block.setInternalBlockId(blockDto.getInternalBlockId());
-                    block.setBlockTypeId(blockDto.getBlockTypeId());
-                    block.setDefaultInputText(blockDto.getDefaultInputText());
-                    project.addBlock(block);
-                }
-            }
+        // // Clear existing blocks and lines
+        // project.getBlocks().clear();
+        // project.getLines().clear();
 
-            // Add new lines if provided
-            if (updateProjectRequest.getData().getLines() != null) {
-                for (ProjectLineRequestDto lineDto : updateProjectRequest.getData().getLines()) {
-                    ProjectLine line = new ProjectLine();
-                    line.setProject(project);
-                    line.setInternalLineId(lineDto.getInternalLineId());
-                    line.setBlockFromInternalId(lineDto.getBlockFromInternalId());
-                    line.setBlockToInternalId(lineDto.getBlockToInternalId());
-                    project.addLine(line);
-                }
-            }
+        // // Add new blocks if provided
+        // if (updateProjectRequest.getData().getBlocks() != null) {
+        // for (ProjectBlockRequestDto blockDto : updateProjectRequest.getData().getBlocks()) {
+        // ProjectBlock block = new ProjectBlock();
+        // block.setProject(project);
+        // block.setInternalBlockId(blockDto.getInternalBlockId());
+        // block.setBlockTypeId(blockDto.getBlockTypeId());
+        // block.setDefaultInputText(blockDto.getDefaultInputText());
+        // project.addBlock(block);
+        // }
+        // }
 
-            // Save updated project
-            projectRepository.save(project);
-        }
+        // // Add new lines if provided
+        // if (updateProjectRequest.getData().getLines() != null) {
+        // for (ProjectLineRequestDto lineDto : updateProjectRequest.getData().getLines()) {
+        // ProjectLine line = new ProjectLine();
+        // line.setProject(project);
+        // line.setInternalLineId(lineDto.getInternalLineId());
+        // line.setBlockFromInternalId(lineDto.getBlockFromInternalId());
+        // line.setBlockToInternalId(lineDto.getBlockToInternalId());
+        // project.addLine(line);
+        // }
+        // }
+
+        // // Save updated project
+        // projectRepository.save(project);
+        // }
+
+        var dto = new UpdateProjectResponseDto();
+        dto.setProjectId(request.getData().getProjectId());
 
         LogEx.trace(log, LogEx.me(), LogEx.STOPPING);
         return dto;
@@ -161,24 +158,24 @@ public class ProjectService {
 
         LogEx.trace(log, LogEx.me(), LogEx.STARTING);
 
-        // Get projects by owner ID
-        List<Project> projects = projectRepository.findByOwnerIdOrderByUpdatedAtDesc(getProjectListRequest.getUserId());
+        // // Get projects by owner ID
+        // List<ProjectEntity> projects = projectRepository
+        // .findByOwnerIdOrderByUpdatedAtDesc(getProjectListRequest.getUserId());
 
-        // Convert to DTOs
-        List<ProjectListItemResponseDto> projectItems = new ArrayList<>();
-        for (Project project : projects) {
-            ProjectListItemResponseDto item = new ProjectListItemResponseDto();
-            item.setProjectId(project.getProjectId());
-            item.setCreatedAt(project.getCreatedAt());
-            item.setUpdatedAt(project.getUpdatedAt());
-            item.setOwnerId(project.getOwnerId());
-            item.setName(project.getName());
-            item.setStatus(project.getStatus());
-            projectItems.add(item);
-        }
+        // // Convert to DTOs
+        // List<ProjectListItemResponseDto> projectItems = new ArrayList<>();
+        // for (ProjectEntity project : projects) {
+        // ProjectListItemResponseDto item = new ProjectListItemResponseDto();
+        // item.setProjectId(project.getProjectId());
+        // item.setCreatedAt(project.getCreatedAt());
+        // item.setUpdatedAt(project.getUpdatedAt());
+        // item.setOwnerId(project.getOwnerId());
+        // item.setName(project.getName());
+        // item.setStatus(project.getStatus());
+        // projectItems.add(item);
+        // }
 
         var dto = new ProjectListResponseDto();
-        dto.setItems(projectItems);
 
         LogEx.trace(log, LogEx.me(), LogEx.STOPPING);
         return dto;
@@ -199,49 +196,49 @@ public class ProjectService {
         dto.setOwnerId(getProjectRequest.getUserId());
         dto.setProjectId(getProjectRequest.getProjectId());
 
-        // Find project in database
-        Optional<Project> projectOpt = projectRepository.findByProjectIdAndOwnerId(
-                getProjectRequest.getProjectId(),
-                getProjectRequest.getUserId());
+        // // Find project in database
+        // Optional<ProjectEntity> projectOpt = projectRepository.findByProjectIdAndOwnerId(
+        // getProjectRequest.getProjectId(),
+        // getProjectRequest.getUserId());
 
-        if (projectOpt.isPresent()) {
-            Project project = projectOpt.get();
-            
-            dto.setName(project.getName());
-            dto.setCreatedAt(project.getCreatedAt());
-            dto.setUpdatedAt(project.getUpdatedAt());
-            dto.setStatus(project.getStatus());
+        // if (projectOpt.isPresent()) {
+        // ProjectEntity project = projectOpt.get();
 
-            // Convert blocks to DTOs
-            List<ProjectBlockResponseDto> blockDtos = new ArrayList<>();
-            for (ProjectBlock block : project.getBlocks()) {
-                ProjectBlockResponseDto blockDto = new ProjectBlockResponseDto();
-                blockDto.setInternalBlockId(block.getInternalBlockId());
-                blockDto.setBlockTypeId(block.getBlockTypeId());
-                blockDto.setDefaultInputText(block.getDefaultInputText());
-                blockDtos.add(blockDto);
-            }
-            dto.setBlocks(blockDtos);
+        // dto.setName(project.getName());
+        // dto.setCreatedAt(project.getCreatedAt());
+        // dto.setUpdatedAt(project.getUpdatedAt());
+        // dto.setStatus(project.getStatus());
 
-            // Convert lines to DTOs
-            List<ProjectLineResponseDto> lineDtos = new ArrayList<>();
-            for (ProjectLine line : project.getLines()) {
-                ProjectLineResponseDto lineDto = new ProjectLineResponseDto();
-                lineDto.setInternalLineId(line.getInternalLineId());
-                lineDto.setBlockFromInternalId(line.getBlockFromInternalId());
-                lineDto.setBlockToInternalId(line.getBlockToInternalId());
-                lineDtos.add(lineDto);
-            }
-            dto.setLines(lineDtos);
-        } else {
-            // Set default values if project not found
-            dto.setName("Project not found");
-            dto.setCreatedAt(Instant.now());
-            dto.setUpdatedAt(Instant.now());
-            dto.setStatus(ProjectStatus.UNKNOWN.getValue());
-            dto.setBlocks(new ArrayList<>());
-            dto.setLines(new ArrayList<>());
-        }
+        // // Convert blocks to DTOs
+        // List<ProjectBlockResponseDto> blockDtos = new ArrayList<>();
+        // for (ProjectBlock block : project.getBlocks()) {
+        // ProjectBlockResponseDto blockDto = new ProjectBlockResponseDto();
+        // blockDto.setInternalBlockId(block.getInternalBlockId());
+        // blockDto.setBlockTypeId(block.getBlockTypeId());
+        // blockDto.setDefaultInputText(block.getDefaultInputText());
+        // blockDtos.add(blockDto);
+        // }
+        // dto.setBlocks(blockDtos);
+
+        // // Convert lines to DTOs
+        // List<ProjectLineResponseDto> lineDtos = new ArrayList<>();
+        // for (ProjectLine line : project.getLines()) {
+        // ProjectLineResponseDto lineDto = new ProjectLineResponseDto();
+        // lineDto.setInternalLineId(line.getInternalLineId());
+        // lineDto.setBlockFromInternalId(line.getBlockFromInternalId());
+        // lineDto.setBlockToInternalId(line.getBlockToInternalId());
+        // lineDtos.add(lineDto);
+        // }
+        // dto.setLines(lineDtos);
+        // } else {
+        // // Set default values if project not found
+        // dto.setName("Project not found");
+        // dto.setCreatedAt(Instant.now());
+        // dto.setUpdatedAt(Instant.now());
+        // dto.setStatus(ProjectStatus.UNKNOWN.getValue());
+        // dto.setBlocks(new ArrayList<>());
+        // dto.setLines(new ArrayList<>());
+        // }
 
         LogEx.trace(log, LogEx.me(), LogEx.STOPPING);
         return dto;
@@ -262,22 +259,22 @@ public class ProjectService {
         var dto = new DeleteProjectResponseDto();
         dto.setProjectId(deleteProjectRequest.getProjectId());
 
-        // Find and delete project
-        Optional<Project> projectOpt = projectRepository.findByProjectIdAndOwnerId(
-                deleteProjectRequest.getProjectId(),
-                deleteProjectRequest.getUserId());
+        // // Find and delete project
+        // Optional<ProjectEntity> projectOpt = projectRepository.findByProjectIdAndOwnerId(
+        // deleteProjectRequest.getProjectId(),
+        // deleteProjectRequest.getUserId());
 
-        if (projectOpt.isPresent()) {
-            Project project = projectOpt.get();
-            
-            // Delete blocks and lines first (cascade should handle this, but being explicit)
-            projectBlockRepository.deleteByProjectProjectId(project.getProjectId());
-            projectLineRepository.deleteByProjectProjectId(project.getProjectId());
-            
-            // Delete project
-            projectRepository.delete(project);
-        }
-        
+        // if (projectOpt.isPresent()) {
+        // ProjectEntity project = projectOpt.get();
+
+        // // Delete blocks and lines first (cascade should handle this, but being explicit)
+        // projectBlockRepository.deleteByProjectProjectId(project.getProjectId());
+        // projectLineRepository.deleteByProjectProjectId(project.getProjectId());
+
+        // // Delete project
+        // projectRepository.delete(project);
+        // }
+
         LogEx.trace(log, LogEx.me(), LogEx.STOPPING);
         return dto;
     }

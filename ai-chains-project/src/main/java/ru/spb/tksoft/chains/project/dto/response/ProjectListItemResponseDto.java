@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import ru.spb.tksoft.chains.project.enumeration.ProjectStatus;
 
 /**
  * Project list item DTO.
@@ -49,6 +50,6 @@ public class ProjectListItemResponseDto {
 
     /** Project status. */
     @JsonProperty("status")
-    @Schema(description = "Project status", example = "EDITING", minLength = 1, maxLength = 20)
-    private String status;
+    @Schema(description = "Project status", example = "EDITING")
+    private ProjectStatus status;
 }

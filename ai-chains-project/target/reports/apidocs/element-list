@@ -3,5 +3,9 @@ ru.spb.tksoft.chains.project.config
 ru.spb.tksoft.chains.project.controller
 ru.spb.tksoft.chains.project.dto.request
 ru.spb.tksoft.chains.project.dto.response
+ru.spb.tksoft.chains.project.entity.project
+ru.spb.tksoft.chains.project.entity.user
 ru.spb.tksoft.chains.project.enumeration
+ru.spb.tksoft.chains.project.mapper
+ru.spb.tksoft.chains.project.repository
 ru.spb.tksoft.chains.project.service
