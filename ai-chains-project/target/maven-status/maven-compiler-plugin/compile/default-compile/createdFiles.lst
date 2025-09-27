@@ -1,5 +1,7 @@
-ru/spb/tksoft/aichains/project/dto/request/UserDataDto.class
-ru/spb/tksoft/aichains/project/controller/ProjectController.class
-ru/spb/tksoft/aichains/project/service/ProjectService.class
-ru/spb/tksoft/aichains/project/config/OpenApiConfig.class
-ru/spb/tksoft/aichains/project/AiChainsProjectApplication.class
+ru/spb/tksoft/chains/project/controller/ProjectController.class
+META-INF/spring-configuration-metadata.json
+ru/spb/tksoft/chains/project/dto/request/CreateProjectRequestDto.class
+ru/spb/tksoft/chains/project/service/ProjectService.class
+ru/spb/tksoft/chains/project/config/OpenApiConfig.class
+ru/spb/tksoft/chains/project/dto/response/CreateProjectResponseDto.class
+ru/spb/tksoft/chains/project/TkAiChainsProjectApplication.class

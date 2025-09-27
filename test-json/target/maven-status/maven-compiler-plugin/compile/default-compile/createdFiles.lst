@@ -1,5 +1,0 @@
-com/example/testjson/controller/JsonController.class
-com/example/testjson/dto/UserDataDto.class
-com/example/testjson/TestJsonApplication.class
-com/example/testjson/service/UserDataService.class
-com/example/testjson/config/OpenApiConfig.class

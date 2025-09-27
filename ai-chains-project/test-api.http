@@ -1,0 +1,9 @@
+### Create new project
+POST http://localhost:8080/projects/create
+Content-Type: application/json
+
+{
+  "user_id": 345,
+  "name": "first project"
+}
+

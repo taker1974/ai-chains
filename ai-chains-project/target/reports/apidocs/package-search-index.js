@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"ru.spb.tksoft.chains.project"},{"l":"ru.spb.tksoft.chains.project.config"},{"l":"ru.spb.tksoft.chains.project.controller"},{"l":"ru.spb.tksoft.chains.project.dto.request"},{"l":"ru.spb.tksoft.chains.project.dto.response"},{"l":"ru.spb.tksoft.chains.project.service"}];updateSearchResults();
