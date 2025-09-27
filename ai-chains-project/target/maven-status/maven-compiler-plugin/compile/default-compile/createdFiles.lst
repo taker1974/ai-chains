@@ -1,7 +1,13 @@
 ru/spb/tksoft/chains/project/controller/ProjectController.class
 META-INF/spring-configuration-metadata.json
+ru/spb/tksoft/chains/project/dto/response/ProjectBlockResponseDto.class
 ru/spb/tksoft/chains/project/dto/request/CreateProjectRequestDto.class
 ru/spb/tksoft/chains/project/service/ProjectService.class
+ru/spb/tksoft/chains/project/dto/request/ProjectBlockRequestDto.class
+ru/spb/tksoft/chains/project/dto/response/ProjectLineResponseDto.class
 ru/spb/tksoft/chains/project/config/OpenApiConfig.class
+ru/spb/tksoft/chains/project/dto/request/ProjectRequestDto.class
+ru/spb/tksoft/chains/project/dto/request/ProjectLineRequestDto.class
 ru/spb/tksoft/chains/project/dto/response/CreateProjectResponseDto.class
+ru/spb/tksoft/chains/project/dto/response/ProjectResponseDto.class
 ru/spb/tksoft/chains/project/TkAiChainsProjectApplication.class
