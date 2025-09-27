@@ -17,5 +17,11 @@
 /home/kostus/Projects/ai-chains/ai-chains-project/src/main/java/ru/spb/tksoft/chains/project/dto/response/ProjectListResponseDto.java
 /home/kostus/Projects/ai-chains/ai-chains-project/src/main/java/ru/spb/tksoft/chains/project/dto/response/ProjectResponseDto.java
 /home/kostus/Projects/ai-chains/ai-chains-project/src/main/java/ru/spb/tksoft/chains/project/dto/response/UpdateProjectResponseDto.java
+/home/kostus/Projects/ai-chains/ai-chains-project/src/main/java/ru/spb/tksoft/chains/project/entity/Project.java
+/home/kostus/Projects/ai-chains/ai-chains-project/src/main/java/ru/spb/tksoft/chains/project/entity/ProjectBlock.java
+/home/kostus/Projects/ai-chains/ai-chains-project/src/main/java/ru/spb/tksoft/chains/project/entity/ProjectLine.java
 /home/kostus/Projects/ai-chains/ai-chains-project/src/main/java/ru/spb/tksoft/chains/project/enumeration/ProjectStatus.java
+/home/kostus/Projects/ai-chains/ai-chains-project/src/main/java/ru/spb/tksoft/chains/project/repository/ProjectBlockRepository.java
+/home/kostus/Projects/ai-chains/ai-chains-project/src/main/java/ru/spb/tksoft/chains/project/repository/ProjectLineRepository.java
+/home/kostus/Projects/ai-chains/ai-chains-project/src/main/java/ru/spb/tksoft/chains/project/repository/ProjectRepository.java
 /home/kostus/Projects/ai-chains/ai-chains-project/src/main/java/ru/spb/tksoft/chains/project/service/ProjectService.java
