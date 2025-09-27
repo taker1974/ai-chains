@@ -53,12 +53,14 @@ public class ProjectRequestDto {
 
     /** Project blocks. */
     @NotNull(message = "blocks is required")
+    @Schema(description = "Project blocks")
     @JsonProperty("blocks")
     @Valid
     private List<ProjectBlockRequestDto> blocks;
 
     /** Project lines. */
     @NotNull(message = "lines is required")
+    @Schema(description = "Project lines")
     @JsonProperty("lines")
     @Valid
     private List<ProjectLineRequestDto> lines;

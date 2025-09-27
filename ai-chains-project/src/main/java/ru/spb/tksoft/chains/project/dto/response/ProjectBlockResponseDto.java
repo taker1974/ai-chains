@@ -1,6 +1,7 @@
 package ru.spb.tksoft.chains.project.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,6 +16,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Schema(description = "Block response DTO")
+@JsonPropertyOrder({"internal_block_id", "block_type_id", "default_input_text"})
 public class ProjectBlockResponseDto {
 
     /** Internal block id. */

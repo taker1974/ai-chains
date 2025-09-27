@@ -7,3 +7,46 @@ Content-Type: application/json
   "name": "first project"
 }
 
+### Update existing project
+POST http://localhost:8080/projects/update
+Content-Type: application/json
+
+{
+  "user_id": 345,
+  "data": {
+    "project_id": 123345,
+    "owner_id": 123,
+    "name": "first project",
+    "status": "EDITING",
+    "blocks": [],
+    "lines":[]
+  }
+}
+
+### Get list of existing projects
+GET http://localhost:8080/projects/list
+Content-Type: application/json
+
+{
+  "user_id": 345
+}
+
+
+### Get existing project
+GET http://localhost:8080/projects/get
+Content-Type: application/json
+
+{
+  "user_id": 345,
+  "project_id": 567
+}
+
+### Delete existing project
+POST http://localhost:8080/projects/delete
+Content-Type: application/json
+
+{
+  "user_id": 345,
+  "project_id": 4545
+}
+

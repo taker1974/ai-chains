@@ -1,6 +1,7 @@
 package ru.spb.tksoft.chains.project.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
@@ -18,6 +19,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Schema(description = "Line response DTO")
+@JsonPropertyOrder({"internal_line_id", "block_from_internal_id", "block_to_internal_id"})
 public class ProjectLineResponseDto {
 
     /** Internal line id. */
